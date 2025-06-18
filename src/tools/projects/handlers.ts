@@ -4,11 +4,15 @@ import {
   CreateProjectArgumentsSchema,
   CreateEnvironmentVariablesSchema,
   ListProjectsArgumentsSchema,
+  FindProjectArgumentsSchema,
+  GetProjectDomainArgumentsSchema,
 } from "./schema.js";
 import type {
   ProjectResponse,
   EnvironmentVariablesResponse,
   ListProjectsResponse,
+  FindProjectResponse,
+  ProjectDomainResponse,
 } from "./types.js";
 
 /**
@@ -185,6 +189,120 @@ export async function handleCreateProject(params: any = {}) {
           type: "text",
           text: `Error: ${
             error instanceof Error ? error.message : "Failed to create project"
+          }`,
+          isError: true,
+        },
+      ],
+    };
+  }
+}
+
+/**
+ * Find a project by ID or name
+ * @param params - The parameters for finding a project
+ * @returns The response from the API
+ */
+export async function handleFindProject(params: any = {}) {
+  try {
+    const { idOrName, teamId } = FindProjectArgumentsSchema.parse(params);
+
+    const url = `v9/projects/${encodeURIComponent(idOrName)}${
+      teamId ? `?teamId=${teamId}` : ""
+    }`;
+
+    const data = await vercelFetch<FindProjectResponse>(url);
+
+    if (!data) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: "Project not found",
+            isError: true,
+          },
+        ],
+      };
+    }
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Found project: ${data.name} (${data.id})`,
+        },
+        {
+          type: "text",
+          text: JSON.stringify(data, null, 2),
+        },
+      ],
+    };
+  } catch (error) {
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Error: ${
+            error instanceof Error ? error.message : "Failed to find project"
+          }`,
+          isError: true,
+        },
+      ],
+    };
+  }
+}
+
+/**
+ * Get a project domain
+ * @param params - The parameters for getting a project domain
+ * @returns The response from the API
+ */
+export async function handleGetProjectDomain(params: any = {}) {
+  try {
+    const { idOrName, domain, teamId, slug } = 
+      GetProjectDomainArgumentsSchema.parse(params);
+
+    // Build query parameters
+    const queryParams = new URLSearchParams();
+    if (teamId) queryParams.append("teamId", teamId);
+    if (slug) queryParams.append("slug", slug);
+
+    const url = `v9/projects/${encodeURIComponent(idOrName)}/domains/${encodeURIComponent(domain)}${
+      queryParams.toString() ? `?${queryParams.toString()}` : ""
+    }`;
+
+    const data = await vercelFetch<ProjectDomainResponse>(url);
+
+    if (!data) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: "Domain not found",
+            isError: true,
+          },
+        ],
+      };
+    }
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Found domain: ${data.name} (verified: ${data.verified})`,
+        },
+        {
+          type: "text",
+          text: JSON.stringify(data, null, 2),
+        },
+      ],
+    };
+  } catch (error) {
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Error: ${
+            error instanceof Error ? error.message : "Failed to get project domain"
           }`,
           isError: true,
         },

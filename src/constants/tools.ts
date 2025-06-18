@@ -545,6 +545,52 @@ export const VERCEL_CREATE_CUSTOM_ENVIRONMENT_TOOL: Tool = {
   },
 };
 
+export const VERCEL_FIND_PROJECT_TOOL: Tool = {
+  name: "vercel-find-project",
+  description: "Find a Vercel project by its ID or name",
+  inputSchema: {
+    type: "object",
+    properties: {
+      idOrName: {
+        type: "string",
+        description: "The project ID or name to find",
+      },
+      teamId: {
+        type: "string",
+        description: "Team ID for request scoping",
+      },
+    },
+    required: ["idOrName"],
+  },
+};
+
+export const VERCEL_GET_PROJECT_DOMAIN_TOOL: Tool = {
+  name: "vercel-get-project-domain",
+  description: "Get information about a specific domain within a Vercel project",
+  inputSchema: {
+    type: "object",
+    properties: {
+      idOrName: {
+        type: "string",
+        description: "The project ID or name",
+      },
+      domain: {
+        type: "string",
+        description: "The domain name (e.g., www.example.com)",
+      },
+      teamId: {
+        type: "string",
+        description: "Team ID for request scoping",
+      },
+      slug: {
+        type: "string",
+        description: "Team slug for request scoping",
+      },
+    },
+    required: ["idOrName", "domain"],
+  },
+};
+
 export const VERCEL_TOOLS = [
   VERCEL_ALL_DEPLOYMENTS_TOOL,
   VERCEL_GET_ENVIRONMENTS_TOOL,
@@ -557,4 +603,6 @@ export const VERCEL_TOOLS = [
   VERCEL_CREATE_ENVIRONMENT_VARIABLES_TOOL,
   VERCEL_CREATE_CUSTOM_ENVIRONMENT_TOOL,
   VERCEL_LIST_PROJECTS_TOOL,
+  VERCEL_FIND_PROJECT_TOOL,
+  VERCEL_GET_PROJECT_DOMAIN_TOOL,
 ] as const;

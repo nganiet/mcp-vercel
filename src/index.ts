@@ -16,6 +16,8 @@ import {
   handleCreateProject,
   handleCreateEnvironmentVariables,
   handleListProjects,
+  handleFindProject,
+  handleGetProjectDomain,
 } from "./tools/projects/handlers.js";
 import { handleGetEnvironments, handleCreateCustomEnvironment } from "./tools/environments/handlers.js";
 import { handleListTeams, handleCreateTeam } from "./tools/teams/handlers.js";
@@ -66,6 +68,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return await handleCreateCustomEnvironment(args);
       case "vercel-list-projects":
         return await handleListProjects(args);
+      case "vercel-find-project":
+        return await handleFindProject(args);
+      case "vercel-get-project-domain":
+        return await handleGetProjectDomain(args);
       default:
         throw new Error(`Unknown tool: ${name}`);
     }

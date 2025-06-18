@@ -51,3 +51,44 @@ export interface ProjectResponse {
   updatedAt: number;
   framework: string | null;
 }
+
+export interface FindProjectResponse {
+  id: string;
+  name: string;
+  accountId: string;
+  createdAt: number;
+  updatedAt: number;
+  env: EnvironmentVariable[];
+  buildCommand: string | null;
+  devCommand: string | null;
+  installCommand: string | null;
+  outputDirectory: string | null;
+  publicSource: boolean | null;
+  rootDirectory: string | null;
+  serverlessFunctionRegion: string | null;
+  nodeVersion: string;
+  framework: string | null;
+  directoryListing: boolean;
+  passwordProtection: null | {
+    deploymentType: string;
+  };
+}
+
+export interface ProjectDomainResponse {
+  name: string;
+  apexName: string;
+  projectId: string;
+  redirect: string | null;
+  redirectStatusCode: number | null;
+  gitBranch: string | null;
+  customEnvironmentId: string | null;
+  updatedAt: number;
+  createdAt: number;
+  verified: boolean;
+  verification: {
+    type: string;
+    domain: string;
+    value: string;
+    reason: string;
+  }[];
+}

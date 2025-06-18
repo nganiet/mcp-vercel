@@ -25,6 +25,8 @@ This MCP server implements Vercel's core API endpoints as tools, enabling:
 - `vercel-get-environments` - Access project environment variables
 - `vercel-create-custom-environment` - Create custom environments for projects
 - `vercel-list-projects` - List all projects with pagination
+- `vercel-find-project` - Find a specific project by ID or name
+- `vercel-get-project-domain` - Get information about a specific domain within a project
 - `vercel-list-all-teams` - List all accessible teams
 - `vercel-create-team` - Create a new team with custom slug and name
 
@@ -211,6 +213,52 @@ List all projects under the authenticated user or team
   - `createdAt`: Creation timestamp
   - Additional properties like targets, accountId, etc.
 
+### `vercel-find-project`
+
+Find a specific Vercel project by its ID or name
+
+- **Inputs**:
+  - `idOrName` (string): The project ID or name to find (required)
+  - `teamId` (string): Team ID for request scoping
+- **Returns**: Detailed project information including:
+  - `id`: Project ID
+  - `name`: Project name
+  - `accountId`: Account ID
+  - `framework`: Framework configuration
+  - `env`: Environment variables
+  - `buildCommand`: Build command
+  - `devCommand`: Development command
+  - `installCommand`: Install command
+  - `outputDirectory`: Output directory
+  - `publicSource`: Whether the project is public
+  - `rootDirectory`: Root directory
+  - `serverlessFunctionRegion`: Serverless function region
+  - `nodeVersion`: Node.js version
+  - `directoryListing`: Directory listing setting
+  - `passwordProtection`: Password protection configuration
+
+### `vercel-get-project-domain`
+
+Get information about a specific domain within a Vercel project
+
+- **Inputs**:
+  - `idOrName` (string): The project ID or name (required)
+  - `domain` (string): The domain name, e.g., www.example.com (required)
+  - `teamId` (string): Team ID for request scoping
+  - `slug` (string): Team slug for request scoping
+- **Returns**: Domain configuration details including:
+  - `name`: The domain name
+  - `apexName`: The apex domain
+  - `projectId`: Associated project ID
+  - `redirect`: Redirect URL if configured
+  - `redirectStatusCode`: HTTP status code for redirects
+  - `gitBranch`: Associated git branch
+  - `customEnvironmentId`: Custom environment ID if applicable
+  - `verified`: Whether the domain is verified
+  - `verification`: Array of verification records
+  - `createdAt`: Creation timestamp
+  - `updatedAt`: Last update timestamp
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -375,6 +423,31 @@ const projects = await mcpClient.callTool({
     limit: 10,
     teamId: "team_1a2b3c4d5e6f7g8h9i0j1k2l", // Optional
     search: "my-app", // Optional
+  },
+});
+```
+
+### Find a Project
+
+```javascript
+const project = await mcpClient.callTool({
+  name: "vercel-find-project",
+  args: {
+    idOrName: "my-project-name", // Can use either project ID or name
+    teamId: "team_1a2b3c4d5e6f7g8h9i0j1k2l", // Optional
+  },
+});
+```
+
+### Get Project Domain
+
+```javascript
+const domain = await mcpClient.callTool({
+  name: "vercel-get-project-domain",
+  args: {
+    idOrName: "my-project-id",
+    domain: "www.example.com",
+    teamId: "team_1a2b3c4d5e6f7g8h9i0j1k2l", // Optional
   },
 });
 ```
