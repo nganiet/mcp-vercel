@@ -72,6 +72,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return await handleFindProject(args);
       case "vercel-get-project-domain":
         return await handleGetProjectDomain(args);
+      case "vercel-delete-project":
+        return await handleDeleteProject(args);
       default:
         throw new Error(`Unknown tool: ${name}`);
     }

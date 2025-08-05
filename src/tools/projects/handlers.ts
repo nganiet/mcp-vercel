@@ -64,6 +64,52 @@ export async function handleCreateEnvironmentVariables(params: any = {}) {
 }
 
 /**
+ * Delete a project by ID or name
+ * @param params - The parameters for deleting a project
+ * @returns The response from the API
+ */
+export async function handleDeleteProject(params: any = {}) {
+  try {
+    const { idOrName, teamId, slug } = 
+      DeleteProjectArgumentsSchema.parse(params);
+
+    // Build query parameters
+    const queryParams = new URLSearchParams();
+    if (teamId) queryParams.append("teamId", teamId);
+    if (slug) queryParams.append("slug", slug);
+
+    const url = `v9/projects/${encodeURIComponent(idOrName)}${
+      queryParams.toString() ? `?${queryParams.toString()}` : ""
+    }`;
+
+    await vercelFetch(url, {
+      method: "DELETE",
+    });
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Project ${idOrName} deleted successfully`,
+        },
+      ],
+    };
+  } catch (error) {
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Error: ${
+            error instanceof Error ? error.message : "Failed to delete project"
+          }`,
+          isError: true,
+        },
+      ],
+    };
+  }
+}
+
+/**
  * List projects
  * @param params - The parameters for listing projects
  * @returns The response from the API

@@ -591,7 +591,31 @@ export const VERCEL_GET_PROJECT_DOMAIN_TOOL: Tool = {
   },
 };
 
+export const VERCEL_DELETE_PROJECT_TOOL: Tool = {
+  name: "vercel-delete-project",
+  description: "Delete a Vercel project by its ID or name",
+  inputSchema: {
+    type: "object",
+    properties: {
+      idOrName: {
+        type: "string",
+        description: "The project ID or name to delete",
+      },
+      teamId: {
+        type: "string",
+        description: "Team ID for request scoping",
+      },
+      slug: {
+        type: "string",
+        description: "Team slug for request scoping",
+      },
+    },
+    required: ["idOrName"],
+  },
+};
+
 export const VERCEL_TOOLS = [
+  VERCEL_DELETE_PROJECT_TOOL,
   VERCEL_ALL_DEPLOYMENTS_TOOL,
   VERCEL_GET_ENVIRONMENTS_TOOL,
   VERCEL_GET_DEPLOYMENT_TOOL,

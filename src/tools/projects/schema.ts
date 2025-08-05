@@ -42,6 +42,12 @@ export const FindProjectArgumentsSchema = z.object({
   teamId: z.string().optional().describe("Team ID for request scoping"),
 });
 
+export const DeleteProjectArgumentsSchema = z.object({
+  idOrName: z.string().min(1, "Project ID or name is required"),
+  teamId: z.string().optional().describe("Team ID for request scoping"),
+  slug: z.string().optional().describe("Team slug for request scoping"),
+});
+
 export const GetProjectDomainArgumentsSchema = z.object({
   idOrName: z.string().min(1, "Project ID or name is required"),
   domain: z.string().min(1, "Domain name is required"),
