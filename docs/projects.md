@@ -179,3 +179,50 @@ const domain = await mcpClient.callTool({
   }
 });
 ```
+
+### `vercel-delete-project`
+
+Delete a Vercel project by its ID or name.
+
+**Inputs:**
+- `idOrName` (string, required): The project ID or name to delete
+- `teamId` (string): Team ID for request scoping
+- `slug` (string): Team slug for request scoping
+
+**Returns:** Success message upon deletion
+
+**Example:**
+```javascript
+const result = await mcpClient.callTool({
+  name: "vercel-delete-project",
+  args: {
+    idOrName: "prj_123abc",
+    teamId: "team_1a2b3c4d5e6f7g8h9i0j1k2l"
+  }
+});
+```
+
+### `vercel-remove-environment-variable`
+
+Remove an environment variable from a Vercel project.
+
+**Inputs:**
+- `idOrName` (string, required): The project ID or name
+- `id` (string, required): The environment variable ID to remove
+- `customEnvironmentId` (string): Custom environment ID
+- `teamId` (string): Team ID for request scoping
+- `slug` (string): Team slug for request scoping
+
+**Returns:** Success message and the removed environment variable details
+
+**Example:**
+```javascript
+const result = await mcpClient.callTool({
+  name: "vercel-remove-environment-variable",
+  args: {
+    idOrName: "prj_123abc",
+    id: "env_456def",
+    teamId: "team_1a2b3c4d5e6f7g8h9i0j1k2l"
+  }
+});
+```
