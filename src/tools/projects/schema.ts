@@ -54,3 +54,11 @@ export const GetProjectDomainArgumentsSchema = z.object({
   teamId: z.string().optional().describe("Team ID for request scoping"),
   slug: z.string().optional().describe("Team slug for request scoping"),
 });
+
+export const RemoveEnvironmentVariableArgumentsSchema = z.object({
+  idOrName: z.string().min(1, "Project ID or name is required"),
+  id: z.string().min(1, "Environment variable ID is required"),
+  customEnvironmentId: z.string().optional().describe("Custom environment ID"),
+  teamId: z.string().optional().describe("Team ID for request scoping"),
+  slug: z.string().optional().describe("Team slug for request scoping"),
+});

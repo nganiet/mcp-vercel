@@ -614,8 +614,40 @@ export const VERCEL_DELETE_PROJECT_TOOL: Tool = {
   },
 };
 
+export const VERCEL_REMOVE_ENVIRONMENT_VARIABLE_TOOL: Tool = {
+  name: "vercel-remove-environment-variable",
+  description: "Remove an environment variable from a Vercel project",
+  inputSchema: {
+    type: "object",
+    properties: {
+      idOrName: {
+        type: "string",
+        description: "The project ID or name",
+      },
+      id: {
+        type: "string",
+        description: "The environment variable ID to remove",
+      },
+      customEnvironmentId: {
+        type: "string",
+        description: "Custom environment ID",
+      },
+      teamId: {
+        type: "string",
+        description: "Team ID for request scoping",
+      },
+      slug: {
+        type: "string",
+        description: "Team slug for request scoping",
+      },
+    },
+    required: ["idOrName", "id"],
+  },
+};
+
 export const VERCEL_TOOLS = [
   VERCEL_DELETE_PROJECT_TOOL,
+  VERCEL_REMOVE_ENVIRONMENT_VARIABLE_TOOL,
   VERCEL_ALL_DEPLOYMENTS_TOOL,
   VERCEL_GET_ENVIRONMENTS_TOOL,
   VERCEL_GET_DEPLOYMENT_TOOL,

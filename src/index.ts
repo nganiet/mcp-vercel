@@ -19,6 +19,7 @@ import {
   handleFindProject,
   handleGetProjectDomain,
   handleDeleteProject,
+  handleRemoveEnvironmentVariable,
 } from "./tools/projects/handlers.js";
 import { handleGetEnvironments, handleCreateCustomEnvironment } from "./tools/environments/handlers.js";
 import { handleListTeams, handleCreateTeam } from "./tools/teams/handlers.js";
@@ -75,6 +76,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return await handleGetProjectDomain(args);
       case "vercel-delete-project":
         return await handleDeleteProject(args);
+      case "vercel-remove-environment-variable":
+        return await handleRemoveEnvironmentVariable(args);
       default:
         throw new Error(`Unknown tool: ${name}`);
     }

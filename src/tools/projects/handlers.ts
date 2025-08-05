@@ -65,6 +65,59 @@ export async function handleCreateEnvironmentVariables(params: any = {}) {
 }
 
 /**
+ * Remove an environment variable from a project
+ * @param params - The parameters for removing an environment variable
+ * @returns The response from the API
+ */
+export async function handleRemoveEnvironmentVariable(params: any = {}) {
+  try {
+    const { idOrName, id, customEnvironmentId, teamId, slug } = 
+      RemoveEnvironmentVariableArgumentsSchema.parse(params);
+
+    // Build query parameters
+    const queryParams = new URLSearchParams();
+    if (customEnvironmentId) queryParams.append("customEnvironmentId", customEnvironmentId);
+    if (teamId) queryParams.append("teamId", teamId);
+    if (slug) queryParams.append("slug", slug);
+
+    const url = `v9/projects/${encodeURIComponent(idOrName)}/env/${encodeURIComponent(id)}${
+      queryParams.toString() ? `?${queryParams.toString()}` : ""
+    }`;
+
+    const data = await vercelFetch<any>(url, {
+      method: "DELETE",
+    });
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Environment variable ${id} removed successfully from project ${idOrName}`,
+        },
+        {
+          type: "text",
+          text: JSON.stringify(data, null, 2),
+        },
+      ],
+    };
+  } catch (error) {
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Error: ${
+            error instanceof Error 
+              ? error.message 
+              : "Failed to remove environment variable"
+          }`,
+          isError: true,
+        },
+      ],
+    };
+  }
+}
+
+/**
  * Delete a project by ID or name
  * @param params - The parameters for deleting a project
  * @returns The response from the API
