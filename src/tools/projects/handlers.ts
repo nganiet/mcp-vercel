@@ -6,6 +6,7 @@ import {
   ListProjectsArgumentsSchema,
   FindProjectArgumentsSchema,
   GetProjectDomainArgumentsSchema,
+  DeleteProjectArgumentsSchema,
 } from "./schema.js";
 import type {
   ProjectResponse,

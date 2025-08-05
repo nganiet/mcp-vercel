@@ -18,6 +18,7 @@ import {
   handleListProjects,
   handleFindProject,
   handleGetProjectDomain,
+  handleDeleteProject,
 } from "./tools/projects/handlers.js";
 import { handleGetEnvironments, handleCreateCustomEnvironment } from "./tools/environments/handlers.js";
 import { handleListTeams, handleCreateTeam } from "./tools/teams/handlers.js";
