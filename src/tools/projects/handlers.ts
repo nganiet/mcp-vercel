@@ -7,6 +7,7 @@ import {
   FindProjectArgumentsSchema,
   GetProjectDomainArgumentsSchema,
   DeleteProjectArgumentsSchema,
+  RemoveEnvironmentVariableArgumentsSchema,
 } from "./schema.js";
 import type {
   ProjectResponse,
